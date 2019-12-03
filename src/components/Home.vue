@@ -2,7 +2,7 @@
   <el-container class="home-container">
     <!-- 头部区域 -->
     <el-header>
-      <div>
+      <div @click="tohome" style="cursor: pointer;">
         <img src="../assets/heima.png">
         <span>电商后台管理系统</span>
       </div>
@@ -74,6 +74,9 @@ export default {
     // 按钮折叠展开
     toggleCollapse () {
       this.isCollapse = !this.isCollapse
+    },
+    tohome () {
+      this.$router.push('/home')
     }
   }
 }
