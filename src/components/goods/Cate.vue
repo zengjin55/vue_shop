@@ -46,7 +46,7 @@
         </el-form-item>
         <el-form-item label="父级分类：">
           <!-- 级联选择器 -->
-          <el-cascader expand-trigger="hover" :options="parentCateList" :props="addCateProps"
+          <el-cascader :options="parentCateList" :props="addCateProps"
             v-model="selectedParentCat" @change="parentCateChange" clearable change-on-select filterable
             :debounce="debounce">
           </el-cascader>
@@ -108,7 +108,8 @@ export default {
       addCateProps: {
         value: 'cat_id',
         label: 'cat_name',
-        children: 'children'
+        children: 'children',
+        expandTrigger: 'hover'
       },
       // 级联选择器所选择的父级菜单
       selectedParentCat: [],
