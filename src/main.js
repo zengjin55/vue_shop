@@ -16,11 +16,27 @@ import axios from 'axios'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+
+// 导入进度条js和样式
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+import { Loading } from 'element-ui'
+
 //  配置请求的根路径
 axios.defaults.baseURL = 'https://renoblog.xyz/api/private/v1/'
-//  请求拦截器
+
+//  request请求拦截器
 axios.interceptors.request.use(config => {
+  // 发送请求时，展示进度条
+  NProgress.start()
+  startLoading()
   config.headers.Authorization = window.sessionStorage.getItem('token')
+  return config
+})
+// response拦截
+axios.interceptors.response.use(config => {
+  endLoading()
+  NProgress.done()
   return config
 })
 Vue.prototype.$http = axios
@@ -42,6 +58,20 @@ Vue.filter('dataFormat', function (originVal) {
   const ss = (date.getSeconds() + '').padStart(2, '0')
   return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
 })
+
+let loading
+//  使用Element loading-start 方法
+function startLoading () {
+  loading = Loading.service({
+    lock: true,
+    text: '拼命加载中...',
+    background: 'rgba(0, 0, 0, 0.7)'
+  })
+}
+//  使用Element loading-close 方法
+function endLoading () {
+  loading.close()
+}
 
 new Vue({
   router,
